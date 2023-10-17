@@ -1,0 +1,241 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Employee Management System
+  description: >
+    REST APIs in Golang for performing CRUD operations on employee details using a CSV file as a database. The APIs support Create, Read, Update, and Delete (CRUD) operations, providing a comprehensive solution for managing employee data.
+
+
+    Functionality:   
+
+    - View/Search Employee Details:
+      - a. View All Employee Details: 
+          This API endpoint retrieves a list of all employees stored in the CSV file.
+      - b. View Details of Specific Employee by ID: 
+          This API endpoint fetches and returns the details of a specific employee based on their unique identifier.
+     - Create Employees: 
+        The create API endpoint allows users to add new employee records in CSV file. 
+        If the CSV file does not exist during the first insertion then API will create the file.
+    
+    - Update Employee Details: 
+        The update API endpoint allows users to modify the details 
+        of an employee with a given ID in the CSV file.
+    
+    - Delete Employee Details: 
+        The delete API endpoint allows users to remove the details of an employee with a specified ID from the CSV file. This action effectively removes the employee from the records.
+    
+    - Search Employee By Header Name:
+      - a. Search Employee by Firstname
+      - b. Search Employee by Lastname
+      - c. Search Employee by Email
+      - d. Search Employee by Role  
+
+          This API endpoint allows users to search for employees based on their first name, last name, email, or role. It provides a flexible search functionality to quickly find specific employees.
+   
+  termsOfService: http://swagger.io/terms/
+  
+  contact:
+   email: takeOff@takeoff.com
+  license:
+   name: GO
+   url: https://pkg.go.dev/github.com/google/go-licenses
+
+servers:
+  - url: http://localhost:3000  # Specify 3000 port here
+    description: Local development server
+
+tags:
+  - name: Operations View Employee Details
+    description: View/Search Employee Details
+  - name: Create Employee
+  - name: Update Employee Details
+  - name: Delete Employee Details 
+  - name: Search Employee
+    description: Search for employees based on their first name, last name, email, or role.
+ 
+paths:
+  /employee:
+    get:  
+      tags:
+        - Operations View Employee Details
+      summary: Get All Employee Data
+      description: Retrieves employee data.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+   
+    post:
+      tags:
+        - Create Employee
+      summary: Add New Employee
+      description: Adds a new employee record to the CSV file.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+        '500':  
+          description: Internal Server Error           
+        
+  
+  /employee/{id}:
+    patch:
+      tags:
+        - Update Employee Details
+      summary: Update Employee
+      description: Update employee details by ID
+      parameters:
+        - in: path
+          name: employeeId
+          description: ID of the employee to update
+          required: true
+          schema:
+            type: integer
+          example: 123
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad Request
+        '404':
+          description: Employee not found
+        '405':
+          description: Validation exception
+        '500':  
+          description: Internal Server Error  
+
+    delete:
+      tags:
+        - Delete Employee Details
+      summary: Delete Employee Data
+      description: Delete employee data by ID.
+      parameters:
+        - in: path
+          name: employeeId
+          required: true
+          description: ID of the employee to delete.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad Request
+        '404':
+          description: Employee not found
+        '500':  
+          description: Internal Server Error  
+
+  /search:
+    get:
+      tags:
+        - Search Employee
+      summary: Search Employees
+      description: Search for employees based on different criteria.
+      parameters:
+        - in: query
+          name: id
+          description: ID of the employee
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: firstName
+          description: First name of the employee
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: lastName
+          description: Last name of the employee
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: email
+          description: Email of the employee
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: role
+          description: Role of the employee
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad Request
+        '404':
+          description: Employee not found
+        '500':
+          description: Internal Server Error
+
+
+components:
+  schemas:
+    
+    Employee:
+      type: object
+      properties:
+        ID:
+          type: integer
+          format: int64
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        Password:
+          type: string
+        PhoneNo:
+          type: string
+        Role:
+          type: string
+        Salary:
+          type: number
+          format: float
+        Birthday:
+          type: string
+          format: date-time
+    
+    
+
+    
+
+externalDocs:
+  description: Test this endpoint
+  url: http://localhost:3000/Employee/search?firstName=<value>
