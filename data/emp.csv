@@ -1,7 +1,4 @@
 ID,FirstName,LastName,Email,Password,PhoneNo,Role,Salary,Birthday
-1,dada,don,d@.com,password123,1232457890,admin,12.00,1985-06-30
+1,Aditya,Bhosale,d@gmail.com,password123,1232457890,admin,12.00,1985-06-30
 2,Ram,Shinde,rw@gmail.com,21222,9876543121,Admin,40000.00,1995-03-15
 3,swami,rao,s@gmail.com,2222,9112121100,manager,30000.00,2000-10-15
-9,ww,Shinde,rrw@gmail.com,21222,9876543121,Admin,40000.00,1995-03-15
-99,ww,Shinde,rrwp@gmail.com,21222,9876543121,Admin,40000.00,1995-03-15
-999,ww,Shinde,rrwxp@gmail.com,21222,9876543121,Admin,40000.00,1995-03-15

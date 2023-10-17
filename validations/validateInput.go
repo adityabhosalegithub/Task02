@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -27,7 +28,10 @@ func IsValidLastName(lastname string) error {
 
 func IsValidEmail(email string) error {
 	if strings.Contains(email, "@") && strings.Contains(email, ".") {
-		return nil
+		emailRegex := regexp.MustCompile(`^[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z]{2,}$`)
+		if emailRegex.MatchString(email) {
+			return nil
+		}
 	}
 	return CustomError{Message: "Email should contain @ and . Enter valid email"}
 }
